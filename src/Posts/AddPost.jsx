@@ -4,7 +4,7 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import axios from "axios";
-import Postslists from "./postslists";
+import Postslists from "./Postslists";
 
 
 export default function AddPost(onPostAdded ) {
