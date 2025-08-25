@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Postcard } from '../Posts/Postcard'
-import Postslists from '../Posts/postslists'
+import Postslists from '../Posts/Postslists'
 import AddPost from './../Posts/AddPost';
 
 export default function Posts() {
