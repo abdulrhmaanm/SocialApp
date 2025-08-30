@@ -4,59 +4,50 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-
 export default function AddPost({ onPostAdded }) {
   const fileInputRef = useRef();
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const { register, handleSubmit, reset } = useForm();
 
   async function handleAddPost(data) {
+    const formData = new FormData();
     setLoading(true);
     setApiError(null);
-
-    try {
-      const formData = new FormData();
       formData.append("body", data.body);
-
-      if (fileInputRef.current.files.length > 0) {
-        formData.append("image", fileInputRef.current.files[0]);
-      }
-
-      const token = localStorage.getItem("token");
-
+      formData.append("image", fileInputRef.current.files[0])
+    try {
       const { data: response } = await axios.post(
         "https://linked-posts.routemisr.com/posts",
         formData,
-        { headers: { token } }
+        {
+          headers: {
+            token : localStorage.getItem("token")
+          },
+        }
       );
 
       console.log("POST response:", response);
 
-      if (response.message === "success") {``
-        const { data: postsData } = await axios.get(
-          "https://linked-posts.routemisr.com/posts?limit=50",
-          { headers: { token } }
-        );
-
-        if (postsData.posts && postsData.posts.length > 0) {
-          onPostAdded(postsData.posts[0]);
-        }
-
-        setSuccess(true);
+      if (response.message === "success") {
         reset();
+        setSuccess(true);
         fileInputRef.current.value = null;
-      } else {
-        setApiError("Failed to retrieve post data");
+        setPreviewImage(null);
+        console.log(data)
+        
+      }else if(response.error){
+        setApiError(response.error);
       }
-    } catch (error) {
-      console.error(error);
+ 
+  }
+    catch (error) {
+      console.log(error)
+      console.error("POST error:", error);
       setApiError(error.response?.data?.error || "Something went wrong");
-    } finally {
-      setLoading(false);
-      setTimeout(() => setSuccess(false), 3000);
     }
   }
 
@@ -85,11 +76,29 @@ export default function AddPost({ onPostAdded }) {
               className="text-gray-600 dark:text-gray-300"
             />
           </div>
-          <input type="file" ref={fileInputRef} className="hidden" />
+          <input
+            {...register("image")}
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            accept="image/*"
+          />
         </div>
 
+        {previewImage && (
+          <div className="mb-4">
+            <img
+              src={previewImage}
+              alt="Preview"
+              className="w-32 h-32 object-cover rounded-lg"
+            />
+          </div>
+        )}
+
         {apiError && <p className="text-red-500 mb-2">{apiError}</p>}
-        {success && <p className="text-green-500 mb-2">Post added successfully!</p>}
+        {success && (
+          <p className="text-green-500 mb-2">Post added successfully!</p>
+        )}
 
         <Button type="submit" color="blue" className="w-full" disabled={loading}>
           {loading ? "Posting..." : "Submit"}

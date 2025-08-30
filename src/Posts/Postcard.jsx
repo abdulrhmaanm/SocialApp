@@ -5,13 +5,16 @@ import { IoIosMore } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Comment from "./Comment";
+import { FaTrash } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
 
-export function Postcard({ post = {} ,commentsLimit = 5}) {
+
+export function Postcard({ post = {} ,commentsLimit = 5 , onDelete ,onEdit}) {
   const { body = "", comments =[], _id, image, createdAt, user = {} } = post;
   const { name: userName = "", photo: userImage } = user;
   const { id } = useParams();
   return (
-    <Card className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-4">
+    <Card className="max-w-xl min-w-xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-4">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <Avatar img={userImage} rounded size="md" />
@@ -22,9 +25,17 @@ export function Postcard({ post = {} ,commentsLimit = 5}) {
             </div>
           </div>
         </div>
-        <button className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-          <IoIosMore size={20} />
+        {onDelete && (
+        <button
+          onClick={onDelete}
+          className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+        >
+          <FaTrash  size={20} />
         </button>
+      )}
+      
+
+  
       </div>
 
 
@@ -51,8 +62,16 @@ export function Postcard({ post = {} ,commentsLimit = 5}) {
             <IoIosMore size={20} />
             More Details
           </Link>
-        </div>
 
+        </div>
+        {onEdit && (
+        <button
+          onClick={onEdit}
+          className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+        >
+          <FaRegEdit  size={20} />
+        </button>
+      )}
 
       </div>
 
