@@ -21,9 +21,7 @@ const route = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoutes>
         <Layout />
-      </ProtectedRoutes>
     ),
     children: [
       { index: true, element: <Posts /> },
@@ -34,6 +32,14 @@ const route = createBrowserRouter([
     element: <Layout />,
     children: [
 
+              {
+        path: "/posts",
+        element: (
+          <ProtectedRoutes>
+            <Posts />
+          </ProtectedRoutes>
+        )
+      },
       
         {
         path: "/profile",

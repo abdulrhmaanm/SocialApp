@@ -5,7 +5,7 @@ import React from 'react'
 export default function ProtectedRoutes({children}) {
 
     if(!localStorage.getItem("token")){
-        return <Navigate to="/" />
+        return <Navigate to="/login" />
     }
   return children
 }

@@ -35,32 +35,44 @@ export function Profile() {
         }
       );
       console.log("Photo updated:", data);
+      alert("Photo updated successfully!");
     } catch (err) {
       console.error("Upload failed:", err);
+      alert("Failed to upload photo");
     }
   };
-async function handlePasswordChange() {
-  try {
-    const { data } = await axios.put(
-      "https://linked-posts.routemisr.com/users/change-password",
-      {
-        password: oldPassword,
-        newPassword: newPassword 
-      },
-      {
-        headers: { token },
-      }
-    );
 
-    console.log( data);
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
 
-  } catch (error) {
-    console.error( error);
-    alert(error.response?.data?.message);
-  }
-}
+    if (newPassword !== confirmPassword) {
+      return alert("Passwords do not match!");
+    }
 
+    try {
+      const { data } = await axios.patch(
+        "https://linked-posts.routemisr.com/users/change-password",
+        {
+          password: oldPassword,
+          newPassword,
+        },
+        {
+          headers: { token },
+        }
+      );
 
+      console.log(data);
+      alert("Password changed successfully!");
+
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setShowPasswordForm(false);
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Failed to change password");
+    }
+  };
 
   return (
     <div className="py-12">
@@ -86,15 +98,14 @@ async function handlePasswordChange() {
             {userData?.dateOfBirth}
           </span>
 
-          <div className="mt-4 flex space-x-3 lg:mt-6">      
-              <input
+          <div className="mt-4 flex space-x-3 lg:mt-6">
+            <input
               type="file"
               accept="image/*"
               ref={fileInputRef}
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
-
 
             <button
               type="button"
@@ -120,10 +131,18 @@ async function handlePasswordChange() {
             >
               <input
                 type="password"
+                placeholder="Old Password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+                className="w-full rounded-lg border p-2 text-black dark:text-white"
+                required
+              />
+              <input
+                type="password"
                 placeholder="New Password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full rounded-lg border p-2 text-white"
+                className="w-full rounded-lg border p-2 text-black dark:text-white"
                 required
               />
               <input
@@ -131,7 +150,7 @@ async function handlePasswordChange() {
                 placeholder="Confirm New Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full rounded-lg border p-2 text-white"
+                className="w-full rounded-lg border p-2 text-black dark:text-white"
                 required
               />
               <button

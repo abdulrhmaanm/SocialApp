@@ -31,11 +31,10 @@ export default function AuthContextProvider({ children }) {
       const {data : response} = await axios.get(
         `https://linked-posts.routemisr.com/users/profile-data`,
         {
-        headers : {token}
+        headers : {token},
         }
       )   
           setUserData(response.user)
-          console.log( response);
           setSuccess(true);
     }
     catch (error) {
