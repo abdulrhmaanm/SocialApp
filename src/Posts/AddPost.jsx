@@ -4,6 +4,7 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
+
 export default function AddPost({ onPostAdded }) {
   const fileInputRef = useRef();
   const [apiError, setApiError] = useState(null);

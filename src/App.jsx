@@ -1,20 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Layout from './Components/Layout'
-import Login from './Pages/Login'
-import Register from './Pages/Register'
-import Posts from './Pages/Posts'
-import NotFound from './Pages/NotFound'
-import { createBrowserRouter, RouterProvider ,  } from 'react-router-dom'
-import AuthContextProvider from './context/AuthContext'
-import CounterContextProvider from './context/CounterContext'
-import ProtectedAuthRoutes from './ProtectRoutes/ProtectedAuthRoutes'
-import ProtectedRoutes from './ProtectRoutes/ProtectedRoutes';
-import PostDetails from './Pages/PostDetails'
-import { Profile } from './Pages/Profile'
+import { useState } from "react";
+import "./App.css";
+import Layout from "./Components/Layout";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import Posts from "./Pages/Posts";
+import NotFound from "./Pages/NotFound";
+import PostDetails from "./Pages/PostDetails";
+import { Profile } from "./Pages/Profile";
 
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthContextProvider from "./context/AuthContext";
+import CounterContextProvider from "./context/CounterContext";
+import ProtectedAuthRoutes from "./ProtectRoutes/ProtectedAuthRoutes";
+import ProtectedRoutes from "./ProtectRoutes/ProtectedRoutes";
 
 function App() {
 const route = createBrowserRouter([
@@ -78,11 +76,10 @@ const route = createBrowserRouter([
   { path: "*", element: <NotFound /> }
 ]);
 
-
   return (
     <AuthContextProvider>
       <CounterContextProvider>
-        <RouterProvider router={route} />
+        <RouterProvider router={router} />
       </CounterContextProvider>
     </AuthContextProvider>
   );

@@ -3,6 +3,7 @@ import Postslists from "./../Posts/Postslists";
 import AddPost from "./../Posts/AddPost";
 import axios from "axios";
 
+
 export default function Posts() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
