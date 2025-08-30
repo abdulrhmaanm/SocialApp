@@ -79,7 +79,7 @@ const route = createBrowserRouter([
   return (
     <AuthContextProvider>
       <CounterContextProvider>
-        <RouterProvider router={router} />
+        <RouterProvider router={route} />
       </CounterContextProvider>
     </AuthContextProvider>
   );
